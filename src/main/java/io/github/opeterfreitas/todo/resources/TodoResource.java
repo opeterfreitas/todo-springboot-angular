@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/todos")
 public class TodoResource {
@@ -17,8 +19,21 @@ public class TodoResource {
     private TodoService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Todo> findById(@PathVariable Integer id){
+    public ResponseEntity<Todo> findById(@PathVariable Integer id) {
         Todo obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
+
+    @GetMapping(value = "/open")
+    public ResponseEntity<List<Todo>> listOpen() {
+        List<Todo> list = service.findAllOpen();
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "/close")
+    public ResponseEntity<List<Todo>> listClose() {
+        List<Todo> list = service.findAllClose();
+        return ResponseEntity.ok().body(list);
+    }
+
 }
